@@ -1,0 +1,54 @@
+<%- include ('../partials/header') %>
+
+<h1>Add Album</h1>
+<form action="/albums/add" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="artist">Artist</label>
+        <input type="text" name="artist" class="form-control" placeholder="Artist Name">
+    </div>
+
+    <div class="form-group">
+        <label for="title">Album Title</label>
+        <input type="text" name="title" class="form-control" placeholder="Album Title">
+    </div>
+
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <select name="genre" class="form-control">
+            <option value="Select a genre">Select a Genre</option>
+            <% genres.forEach(genre => { %>
+                <option value="<%=genre.name %>"><%=genre.name %></option>
+            <% }); %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="info">Album Info</label>
+        <textarea name="info" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="year">Release Year</label>
+        <input type="text" name="year" class="form-control" placeholder="Release Year">
+    </div>
+
+    <div class="form-group">
+        <label for="label">Record Label</label>
+        <input type="text" name="label" class="form-control" placeholder="Record Label">
+    </div>
+
+    <div class="form-group">
+        <label for="tracks">Number of Tracks</label>
+        <input type="text" name="tracks" class="form-control" placeholder="Number of Tracks">
+    </div>
+
+    <div class="form-group">
+        <label for="cover">Album Cover</label>
+        <input type="file" name="cover" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+    <a href="/albums" class="btn btn-danger">Close</a>
+</form>
+
+<%- include ('../partials/footer') %>

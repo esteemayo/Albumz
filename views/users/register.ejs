@@ -1,0 +1,84 @@
+<%- include ('../partials/header') %>
+
+<h1>Register</h1>
+<form action="/users/register" method="post">
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      type="text"
+      name="firstName"
+      class="form-control"
+      placeholder="First Name"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input
+      type="text"
+      name="lastName"
+      class="form-control"
+      placeholder="Last Name"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" name="email" class="form-control" placeholder="Email" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      class="form-control"
+      placeholder="Password"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="confirm">Confirm Password</label>
+    <input
+      type="password"
+      name="confirm"
+      class="form-control"
+      placeholder="Confirm Password"
+    />
+  </div>
+
+  <h3>Optional Info</h3>
+  <div class="form-group">
+    <label for="location">Location</label>
+    <input
+      type="text"
+      name="location"
+      class="form-control"
+      placeholder="Location"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="favGenres">Favorite Genres</label>
+    <input
+      type="text"
+      name="favGenres"
+      class="form-control"
+      placeholder="Favorite Genres"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="favArtists">favorite Artists</label>
+    <input
+      type="text"
+      name="favArtists"
+      class="form-control"
+      placeholder="favorite Artists"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<%- include ('../partials/footer') %>

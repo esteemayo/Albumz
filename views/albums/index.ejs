@@ -1,0 +1,23 @@
+<%- include ('../partials/header') %>
+
+<% if (user) { %>
+    <h1>
+      My Albums
+      <a href="/albums/add" class="btn btn-success pull-right">Add Album</a>
+    </h1>
+<% } %>
+
+        <div class="row albums">
+            <% albums.forEach(album => { %>
+                <div class="col-md-4 albums">
+                    <a href="/albums/details/<%= album._id %>">
+                        <img src="/images/uploads/<%= album.cover %>" alt="Album Image" />    
+                    </a>
+
+                    <h4 class="album-title text-center"><%= album.title %></h4>
+                    <p class="artist-name text-center"><%= album.artist %></p>
+                </div>
+            <% }); %>
+        </div>
+
+<%- include ('../partials/footer') %>

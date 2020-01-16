@@ -1,8 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const upload = multer({ dest: './public/images/uploads' });
+// const multer = require('multer');
+// const upload = multer({ dest: './public/images/uploads' });
 const auth = require('../middleware/auth');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    }
+});
+
+const imageFilter = function (req, file, cb) {
+    // Accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed'), false);
+    }
+    cb(null, true);
+}
+
+const upload = multer({ storage: storage, fileFilter: imageFilter });
+
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'learntocodewithnode',
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // CONTROLLERS
 const index = require('../controllers/albums/index');

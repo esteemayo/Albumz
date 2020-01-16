@@ -11,7 +11,7 @@
             <% albums.forEach(album => { %>
                 <div class="col-md-4 albums">
                     <a href="/albums/details/<%= album._id %>">
-                        <img src="/images/uploads/<%= album.cover %>" alt="Album Image" />    
+                        <img src="<%= album.cover %>" alt="<%= album.title %> Album Cover" />    
                     </a>
 
                     <h4 class="album-title text-center"><%= album.title %></h4>

@@ -32,6 +32,9 @@ const albumSchema = new mongoose.Schema({
     cover: {
         type: String
     },
+    coverId: {
+        type: String
+    },
     user: {
         type: String,
         required: true

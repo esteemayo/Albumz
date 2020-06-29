@@ -13,6 +13,8 @@ const albums = require('../routes/albums');
 const genres = require('../routes/genres');
 const users = require('../routes/users');
 const auth = require('../routes/auth');
+const forgot = require('../routes/forgot');
+const reset = require('../routes/reset');
 
 module.exports = app => {
     require('../config/passport')(passport);
@@ -65,4 +67,6 @@ module.exports = app => {
     app.use('/genres', genres);
     app.use('/auth', auth);
     app.use('/users/register', users);
+    app.use('/auth/forgot', forgot);
+    app.use('/auth/reset/:token', reset);
 }

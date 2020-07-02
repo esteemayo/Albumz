@@ -8,6 +8,9 @@ module.exports = () => {
         useUnifiedTopology: true,
         useFindAndModify: false
     })
-        .then(() => console.log('MongoDB Connected...'))
+        .then(con => {
+            // console.log(con.connections);
+            console.log('MongoDB Connected...')
+        })
         .catch(err => console.log(`COULD NOT CONNECT TO MONGODB: ${err}`));
 }

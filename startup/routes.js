@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -8,13 +7,10 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 
-const index = require('../routes/index');
-const albums = require('../routes/albums');
-const genres = require('../routes/genres');
-const users = require('../routes/users');
-const auth = require('../routes/auth');
-const forgot = require('../routes/forgot');
-const reset = require('../routes/reset');
+const AppError = require('../utils/appError');
+const globalErrorHandler = require('../controllers/errorController');
+const viewRoute = require('../routes/view');;
+const userRoute = require('../routes/users');
 
 module.exports = app => {
     require('../config/passport')(passport);
@@ -24,7 +20,9 @@ module.exports = app => {
     app.set('view engine', 'ejs');
 
     // LOGGER MIDDLEWARE
-    app.use(logger('dev'));
+    if (process.env.NODE_ENV === 'development') {
+        app.use(logger('dev'));
+    }
 
     // BODY PARSER MIDDLEWARE
     app.use(express.json());
@@ -62,11 +60,12 @@ module.exports = app => {
     });
 
     // ROUTE MIDDLEWARE
-    app.use('/', index);
-    app.use('/albums', albums);
-    app.use('/genres', genres);
-    app.use('/auth', auth);
-    app.use('/users/register', users);
-    app.use('/auth/forgot', forgot);
-    app.use('/auth/reset/:token', reset);
+    app.use('/', viewRoute);
+    app.use('/', userRoute);
+
+    app.use((req, res, next) => {
+        return next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+    });
+
+    app.use(globalErrorHandler);
 }

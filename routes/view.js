@@ -15,11 +15,11 @@ router.post('/albums/add', authController.protect, viewController.uploadAlbumCov
 
 router.get('/albums/details/:id', authController.protect, viewController.albumDetailPage);
 
-router.get('/edit/:id', authController.protect, viewController.editAlbumPage);
+router.get('/albums/edit/:id', authController.protect, viewController.editAlbumPage);
 
-router.put('/edit/:id', authController.protect, viewController.uploadAlbumCover, viewController.updateAlbum);
+router.put('/albums/edit/:id', authController.protect, viewController.uploadAlbumCover, viewController.updateAlbum);
 
-router.delete('/delete/:id', authController.protect, viewController.deleteAlbum);
+router.delete('/albums/delete/:id', authController.protect, viewController.deleteAlbum);
 
 router.get('/genres', authController.protect, viewController.getAllGenres);
 

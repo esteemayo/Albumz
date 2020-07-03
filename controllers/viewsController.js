@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const multer = require('multer');
-
-
+const cloudinary = require('cloudinary');
 const Album = require('../models/Album');
 const Genre = require('../models/Genre');
 const catchAsync = require('../utils/catchAsync');
@@ -23,7 +22,6 @@ const imageFilter = function (req, file, cb) {
 
 const upload = multer({ storage: storage, fileFilter: imageFilter });
 
-const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name: 'learntocodewithnode',
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -52,6 +50,7 @@ exports.addAlbum = catchAsync(async (req, res, next) => {
 exports.createAlbum = catchAsync(async (req, res, next) => {
     const { artist, title, genre, info, year, label, tracks } = req.body;
 
+    const result = await cloudinary.uploader.upload(req.file.path);
     const album = await Album.create({
         artist,
         title,
@@ -84,7 +83,7 @@ exports.albumDetailPage = catchAsync(async (req, res, next) => {
 
 exports.editAlbumPage = catchAsync(async (req, res, next) => {
     const genres = await Genre.find();
-    const album = await Album.find.findById(req.params.id);
+    const album = await Album.findById(req.params.id);
 
     if (!album) {
         return next(new AppError('No album found with that ID', 404));

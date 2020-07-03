@@ -9,8 +9,10 @@ const methodOverride = require('method-override');
 
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
-const viewRoute = require('../routes/view');;
+const albumRoute = require('../routes/albums');
+const genreRoute = require('../routes/genre');
 const userRoute = require('../routes/users');
+const viewRoute = require('../routes/view');
 
 module.exports = app => {
     require('../config/passport')(passport);
@@ -59,9 +61,17 @@ module.exports = app => {
         next();
     });
 
+    // Test middleware
+    app.use((req, res, next) => {
+        req.requestTime = new Date().toISOString();
+        next();
+    });
+
     // ROUTE MIDDLEWARE
     app.use('/', viewRoute);
     app.use('/', userRoute);
+    app.use('/api/v1/albums', albumRoute);
+    app.use('/api/v1/genres', genreRoute);
 
     app.use((req, res, next) => {
         return next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

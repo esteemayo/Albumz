@@ -39,15 +39,12 @@ const userSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        required: [true, 'Please tell us where you are located']
     },
     favGenres: {
-        type: String,
-        required: [true, 'Please tell us your favorite genre']
+        type: String
     },
     favArtists: {
-        type: String,
-        required: [true, 'Please tell us your favorite artist']
+        type: String
     },
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -74,7 +71,7 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 

@@ -194,9 +194,13 @@ exports.deleteGenre = catchAsync(async (req, res, next) => {
 });
 
 exports.index = (req, res) => {
-    res.status(200).render('index');
+    res.status(200).render('index', {
+        title: 'Home Page'
+    });
 };
 
 exports.addGenreForm = (req, res) => {
-    res.status(200).render('genres/add');
+    res.status(200).render('genres/add', {
+        title: 'Add new album'
+    });
 };

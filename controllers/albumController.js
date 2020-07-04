@@ -38,11 +38,11 @@ exports.getAlbum = factory.getOne(Album);
 
 exports.createAlbum = catchAsync(async (req, res, next) => {
     const { artist, title, genre, info, year, label, tracks } = req.body;
-    const albumObj = _.pick(req.body, ['artist', 'title', 'genre', 'info', 'year', 'label', 'tracks']);
+    // const albumObj = _.pick(req.body, ['artist', 'title', 'genre', 'info', 'year', 'label', 'tracks']);
 
     const result = await cloudinary.uploader.upload(req.file.path);
     const album = await Album.create({
-        albumObj,
+        artist, title, genre, info, year, label, tracks,
         cover: result.secure_url,
         coverId: result.public_id
     });

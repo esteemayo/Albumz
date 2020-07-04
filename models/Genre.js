@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const genreSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'A genre must have a name']
+        required: [true, 'A genre must have a name'],
+        unique: true
     },
     user: {
         type: String,

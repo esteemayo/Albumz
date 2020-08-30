@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const Album = require('../models/Album');
@@ -51,7 +50,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
     const { artist, title, genre, info, year, label, tracks } = req.body;
 
     const result = await cloudinary.uploader.upload(req.file.path);
-    const album = await Album.create({
+    await Album.create({
         artist,
         title,
         genre,

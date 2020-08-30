@@ -1,3 +1,4 @@
+/* eslint-disable */
 const dotenv = require('dotenv');
 
 process.on('uncaughtException', err => {

@@ -1,9 +1,10 @@
 const _ = require('lodash');
+const crypto = require('crypto');
 const passport = require('passport');
 const User = require('../models/User');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const sendEmail = require('../utils/sendEmail');
+const SendEmail = require('../utils/sendEmail');
 // const email = require('../utils/email');
 
 exports.signup = catchAsync(async (req, res, next) => {
@@ -14,7 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     user.password = undefined;
 
     const url = `${req.protocol}://${req.get('host')}/auth/login`;
-    await new sendEmail(user, url).sendWelcome();
+    await new SendEmail(user, url).sendWelcome();
 
     req.flash('success', `You're now registered and can login in`);
     res.status(201).redirect('/auth/login');
@@ -62,7 +63,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     try {
         const resetURL = `${req.protocol}://${req.get('host')}/auth/reset/${resetToken}`;
 
-        await new sendEmail(user, resetURL).sendPasswordReset();
+        await new SendEmail(user, resetURL).sendPasswordReset();
 
         req.flash('success', `An e-mail has been sent to ${user.email} with further instructions.`);
         res.status(200).redirect('/auth/forgot');
@@ -77,22 +78,29 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.resetPasswordForm = catchAsync(async (req, res, next) => {
-    const user = await User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } });
+    const hashedToken = crypto
+        .createHash('sha256')
+        .update(req.params.token)
+        .digest('hex');
+
+    const user = await User.findOne({ passwordResetToken: hashedToken, passwordResetExpires: { $gt: Date.now() } });
+    
+    // If token has not expired, and there is user, set the new password
     if (!user) {
         req.flash('error', 'Password reset token is invalid or has expired.');
-        return res.status(401).redirect('/auth/forgot');
+        return res.status(400).redirect('/auth/forgot');
     }
 
     res.status(200).render('forgot/reset', {
         title: 'Reset your account password',
-        token: req.params.token
+        token: hashedToken
     });
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
     const user = await User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } });
 
-    // If token has not expired, and there is user, set the new passwo
+    // If token has not expired, and there is user, set the new password
     if (!user) {
         req.flash('error', 'Token is invalid or has expired');
         return res.status(400).redirect('/auth/forgot');

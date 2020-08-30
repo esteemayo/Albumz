@@ -9,6 +9,11 @@ const genreSchema = new mongoose.Schema({
     user: {
         type: String,
         required: [true, 'There must be a logged in user']
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+        select: false
     }
 });
 

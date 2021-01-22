@@ -21,15 +21,15 @@ const db = process.env.DATABASE.replace(
 const dbLocal = process.env.DATABASE_LOCAL;
 
 // MongoDB connection
-// mongoose.connect(db, {
-mongoose.connect(dbLocal, {
+mongoose.connect(db, {
+// mongoose.connect(dbLocal, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 })
-    // .then(() => console.log(`Connected to MongoDB → ${db}`));
-    .then(() => console.log(`Connected to MongoDB → ${dbLocal}`));
+    .then(() => console.log(`Connected to MongoDB → ${db}`));
+    // .then(() => console.log(`Connected to MongoDB → ${dbLocal}`));
 
 // Read JSON file
 const reviews = JSON.parse(fs.readFileSync(`${__dirname}/reviews.json`, 'utf8'));

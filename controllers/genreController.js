@@ -1,5 +1,5 @@
 const Genre = require('../models/Genre');
-const factory = require('../controllers/handlerFactory');
+const factory = require('./handlerFactory');
 
 exports.getAllGenres = factory.getAll(Genre);
 exports.getGenre = factory.getOne(Genre);

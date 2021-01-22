@@ -1,5 +1,6 @@
 const express = require('express');
 const genreController = require('../controllers/genreController');
+const validateObjectId = require('../middleware/validateObjectId');
 
 const router = express.Router();
 
@@ -10,8 +11,17 @@ router
 
 router
     .route('/:id')
-    .get(genreController.getGenre)
-    .patch(genreController.updateGenre)
-    .delete(genreController.deleteGenre);
+    .get(
+        validateObjectId,
+        genreController.getGenre
+    )
+    .patch(
+        validateObjectId,
+        genreController.updateGenre
+    )
+    .delete(
+        validateObjectId,
+        genreController.deleteGenre
+    );
 
 module.exports = router;

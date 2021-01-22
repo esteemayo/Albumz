@@ -1,7 +1,11 @@
 const express = require('express');
 const albumController = require('../controllers/albumController');
+const validateObjectId = require('../middleware/validateObjectId');
+const reviewRouter = require('./reviews');
 
 const router = express.Router();
+
+router.use('/:albumId/reviews', reviewRouter);
 
 router
     .route('/')
@@ -13,11 +17,18 @@ router
 
 router
     .route('/:id')
-    .get(albumController.getAlbum)
+    .get(
+        validateObjectId,
+        albumController.getAlbum
+    )
     .patch(
+        validateObjectId,
         albumController.uploadAlbumCover,
         albumController.updateAlbum
     )
-    .delete(albumController.deleteAlbum);
+    .delete(
+        validateObjectId,
+        albumController.deleteAlbum
+    );
 
 module.exports = router;

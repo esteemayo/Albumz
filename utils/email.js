@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const htmlToText = require('html-to-text');
 
 const sendMail = async options => {
     const transporter = nodemailer.createTransport({
@@ -12,10 +11,11 @@ const sendMail = async options => {
     });
 
     const mailOptions = {
-        from: 'Alice Doe <alicedoe@example.com>',
+        from: `Emmanuel Adebayo <${process.env.EMAIL_FROM}>`,
         to: options.email,
         subject: options.subject,
-        text: options.message
+        text: options.message,
+        html: options.html
     };
 
     await transporter.sendMail(mailOptions);

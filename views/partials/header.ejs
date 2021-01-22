@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Albumz</title>
+    <title><%= title %> | <%= h.siteName %></title>
     <!-- <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://bootswatch.com/3/slate/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -19,14 +19,17 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Albumz</a>
+            <a class="navbar-brand <%= currentPath.endsWith('/') ? 'active' : '' %>" href="/">Albumz</a>
           </div>
           <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
               <% if (!user) { %>
-                <li><a href="/users/register">Register</a></li>
-                <li><a href="/auth/login">Login</a></li>
-              <% } else { %>
+                <li><a class="<%= currentPath.includes('/users/register') ? 'active' : '' %>" href="/users/register">Register</a></li>
+                <li><a class="<%= currentPath.includes('/auth/login') ? 'active' : '' %>" href="/auth/login">Login</a></li>
+                <% } else { %>
+                <li><a class="<%= currentPath.includes('/albums/tags') ? 'active' : '' %>" href="/albums/tags">Tags</a></li>
+                <li><a class="<%= currentPath.includes('/albums/top') ? 'active' : '' %>" href="/albums/top">Top Albums</a></li>
+                <li><a class="<%= currentPath.includes('/account') ? 'active' : '' %>" href="/account"><%= user.fullName %></a></li>
                 <li><a href="/auth/logout">Logout</a></li>
               <% } %>
             </ul>
@@ -38,8 +41,8 @@
         <% if (!user) { %>
           <div class="row">
             <div class="col-md-12">
-              <% if (page == '/') { %>
-                <a href="/albums"><img src="/images/banner.jpg" alt="Banner Image" /></a>
+              <% if (page === '/') { %>
+                <a href="/albums"><img src="/img/banner.jpg" alt="Banner Image" /></a>
               <% } %>
             </div>
           </div>
@@ -48,11 +51,24 @@
               <div class="col-md-3">
                 <% if (user) { %>
                   <p class="well">Welcome, <%= user.firstName %> <%= user.lastName %></p>
+                  <% if (currentPath.includes('/account')) { %>
+                    <% if (user.photo) { %>
+                      <a href="/img/users/<%= user.photo %>" class="thumbnail" target="blank">
+                        <img src="/img/users/<%= user.photo %>" alt="<%= user.fullName %>" title="<%= user.fullName %>" width="260" />
+                      </a>
+                    <% } else { %>
+                      <a href="<%= user.gravatar %>" class="thumbnail" target="blank">
+                        <img src="<%= user.gravatar %>" alt="<%= user.fullName %>" title="<%= user.fullName %>" width="260" />
+                      </a>
+                    <% } %>
+                  <% } %>
                 <% } %>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/albums">View Albums</a></li>
-                    <li class="list-group-item"><a href="/genres">View Genres</a></li>
-                </ul>
+                <% if (!currentPath.includes('/account')) { %>
+                  <ul class="list-group">
+                      <li class="list-group-item"><a href="/albums">View Albums</a></li>
+                      <li class="list-group-item"><a href="/genres">View Genres</a></li>
+                  </ul>
+                <% } %>
               </div>
 
               <div class="col-md-9">

@@ -1,84 +1,132 @@
 <%- include ('../partials/header') %>
 
-<h1>Register</h1>
-<form action="/users/register" method="post">
-  <div class="form-group">
-    <label for="firstName">First Name</label>
-    <input
-      type="text"
-      name="firstName"
-      class="form-control"
-      placeholder="First Name"
-    />
-  </div>
+<div class="register-form">
+  <h1 class="heading-secondary">Register</h1>
+  <form action="/users/register" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label class="form__label" for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        name="firstName"
+        class="form__input"
+        placeholder="First Name"
+        required
+        autofocus
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="lastName">Last Name</label>
-    <input
-      type="text"
-      name="lastName"
-      class="form-control"
-      placeholder="Last Name"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        name="lastName"
+        class="form__input"
+        placeholder="Last Name"
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" name="email" class="form-control" placeholder="Email" />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        class="form__input"
+        placeholder="you@example.com"
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      class="form-control"
-      placeholder="Password"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        name="username"
+        class="form__input"
+        placeholder="Username"
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="confirm">Confirm Password</label>
-    <input
-      type="password"
-      name="confirm"
-      class="form-control"
-      placeholder="Confirm Password"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        class="form__input"
+        placeholder="********"
+        minlength="8"
+        required
+      />
+    </div>
 
-  <h3>Optional Info</h3>
-  <div class="form-group">
-    <label for="location">Location</label>
-    <input
-      type="text"
-      name="location"
-      class="form-control"
-      placeholder="Location"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="confirm">Confirm Password</label>
+      <input
+        id="confirm"
+        type="password"
+        name="confirm"
+        class="form__input"
+        placeholder="********"
+        minlength="8"
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="favGenres">Favorite Genres</label>
-    <input
-      type="text"
-      name="favGenres"
-      class="form-control"
-      placeholder="Favorite Genres"
-    />
-  </div>
+    <h3>Optional Info</h3>
+    <div class="form-group">
+      <label for="photo">Photo</label>
+      <input
+        id="photo"
+        type="file"
+        name="photo"
+        class=".form__upload"
+        accept="image/*"
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="favArtists">favorite Artists</label>
-    <input
-      type="text"
-      name="favArtists"
-      class="form-control"
-      placeholder="favorite Artists"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="location">Location</label>
+      <input
+        id="location"
+        type="text"
+        name="location"
+        class="form__input"
+        placeholder="Location"
+      />
+    </div>
 
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <div class="form-group">
+      <label class="form__label" for="favGenres">Favorite Genres</label>
+      <input
+        id="favGenres"
+        type="text"
+        name="favGenres"
+        class="form__input"
+        placeholder="Favorite Genres"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form__label" for="favArtists">favorite Artists</label>
+      <input
+        id="favArtists"
+        type="text"
+        name="favArtists"
+        class="form__input"
+        placeholder="favorite Artists"
+      />
+    </div>
+
+    <button type="submit" class="btn btn--green btn--small btn-block">
+      Sign Up →
+    </button>
+  </form>
+</div>
 
 <%- include ('../partials/footer') %>

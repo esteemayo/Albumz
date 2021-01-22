@@ -2,22 +2,46 @@
 
 <% if (user) { %>
     <h1>
-      My Albums
-      <a href="/albums/add" class="btn btn-success pull-right">Add Album</a>
+     Albums
+      <a href="/albums/add" class="btn btn--smail btn-success pull-right">Add Album</a>
     </h1>
+    <br /><br />
 <% } %>
 
-        <div class="row albums">
-            <% albums.forEach(album => { %>
-                <div class="col-md-4 albums">
-                    <a href="/albums/details/<%= album._id %>">
-                        <img src="<%= album.cover %>" alt="<%= album.title %> Album Cover" />    
-                    </a>
+<div class="row albums">
+    <% albums.forEach(album => { %>
+        <div class="col-md-4 albums">
+            <a href="/albums/details/<%= album.slug %>">
+                <% if (album.coverId) { %>
+                    <img src="<%= album.cover %>" alt="<%= album.title %>" height="258" />
+                <% } else { %>
+                    <img src="/img/albums/<%= album.cover %>" alt="<%= album.title %>" height="258" />
+                <% } %>
+            </a>
 
-                    <h4 class="album-title text-center"><%= album.title %></h4>
-                    <p class="artist-name text-center"><%= album.artist %></p>
-                </div>
-            <% }); %>
+            <h4 class="album-title text-center"><%= album.title %></h4>
+            <p class="artist-name text-center"><%= album.artist %></p>
         </div>
+    <% }); %>
+</div>
+
+<div class="row">
+    <div class="space"></div>
+    <div class="pagination">
+        <div class="pagination__prev">
+            <% if (page > 1) { %>
+                <a href="/albums/page/<%= page - 1 %>">Prev</a>
+            <% } %>
+        </div>
+        <div class="pagination__text">
+            <p>Page <%= page %> of <%= pages %> - <%= count %> total results</p>
+        </div>
+        <% if (page < pages) { %>
+            <div class="pagination__next">
+                <a href="/albums/page/<%= parseFloat(page + 1) %>">Next</a>
+            </div>
+        <% } %>
+    </div>
+</div>
 
 <%- include ('../partials/footer') %>

@@ -1,0 +1,47 @@
+<%- include ('../partials/header') %>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="heading-secondary">
+            <% if (albums.length <= 1) { %>
+                Top Album
+            <% } else { %>
+                Top <%= albums.length %> Albums
+            <% } %>
+        </h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Ranking</th>
+                    <th>Title</th>
+                    <th>Reviews</th>
+                    <th>Average Ratings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% albums.forEach((album, i) => { %>
+                    <tr>
+                        <td>
+                            <a href="/albums/details/<%= album.slug %>">
+                                <% if (album.coverId) { %>
+                                    <img src="<%= album.cover %>" alt="<%= album.title %>" title="<%= album.title %>" width="200" />
+                                <% } else { %>
+                                    <img src="/img/albums/<%= album.cover %>" alt="<%= album.title %>" title="<%= album.title %>" width="200" />
+                                <% } %>
+                            </a>
+                        </td>
+                        <td><%= i + 1 %></td>
+                        <td>
+                            <a href="/albums/details/<%= album.slug %>"><%= album.title %></a>
+                        </td>
+                        <td><%= album.reviews.length %></td>
+                        <td><%= Math.round(album.averageRating * 10) / 10 %> / 5</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>

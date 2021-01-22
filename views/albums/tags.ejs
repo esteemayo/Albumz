@@ -1,0 +1,34 @@
+<%- include ('../partials/header') %>
+
+<h2 class="heading-secondary"><%= tag || '#Tags' %></h2>
+<br /><br />
+<ul class="tags">
+    <% tags.forEach(tag => { %>
+     <li class="tag">
+        <a class="tag__link <% tag._id === tag ? 'tag__link--active' : '' %> " href="/albums/tags/<%= tag._id %>">
+            <span class="tag__text">#<%= tag._id %></span>
+            <span class="tag__count"><%= tag.count %></span>
+        </a>
+    </li>
+    <% }); %>
+</ul>
+<hr />
+
+<div class="row albums">
+    <% albums.forEach(album => { %>
+        <div class="col-md-4 albums">
+            <a href="/albums/details/<%= album.slug %>">
+                <% if (album.coverId) { %>
+                    <img src="<%= album.cover %>" alt="<%= album.title %>" height="258" />
+                <% } else { %>
+                    <img src="/img/albums/<%= album.cover %>" alt="<%= album.title %>" height="258" />
+                <% } %>  
+            </a>
+
+            <h4 class="album-title text-center"><%= album.title %></h4>
+            <p class="artist-name text-center"><%= album.artist %></p>
+        </div>
+    <% }); %>
+</div>
+
+<%- include ('../partials/footer') %>

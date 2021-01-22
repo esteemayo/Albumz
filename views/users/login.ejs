@@ -1,27 +1,41 @@
 <%- include ('../partials/header') %>
 
-<h1>Login</h1>
-<form action="/auth/login" method="post">
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" name="email" class="form-control" placeholder="Email" />
-  </div>
+<div class="login-form">
+  <h1 class="heading-secondary">Login</h1>
+  <form action="/auth/login" method="POST">
+    <div class="form-group">
+      <label class="form__label" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        class="form__input"
+        placeholder="you@example.com"
+        autofocus
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      class="form-control"
-      placeholder="******"
-      minlength="6"
-    />
-  </div>
+    <div class="form-group">
+      <label class="form__label" for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        class="form__input"
+        placeholder="********"
+        minlength="8"
+        required
+      />
+    </div>
 
-  <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn--green btn--small btn-block">
+      Login →
+    </button>
 
-  <br /><br />
-  <p><a href="/auth/forgot">Forgot password?</a></p>
-</form>
+    <br /><br />
+    <p><a href="/auth/forgot">Forgot password?</a></p>
+  </form>
+</div>
 
 <%- include ('../partials/footer') %>

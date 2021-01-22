@@ -1,13 +1,25 @@
 <%- include ('../partials/header') %>
 
-<h1>Forgot Password</h1>
-<form action="/auth/forgot" method="post">
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" name="email" class="form-control" placeholder="Email" />
-  </div>
+<div class="inner">
+  <h1 class="heading-secondary">Forgot Password</h1>
+  <form class="card" action="/auth/forgot" method="POST">
+    <div class="form-group">
+      <label class="form__label" for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        class="form__input"
+        placeholder="user@example.com"
+        autofocus
+        required
+      />
+    </div>
 
-  <button type="submit" class="btn btn-default">Send</button>
-</form>
+    <button type="submit" class="btn btn--green btn--small btn-block">
+      Send →
+    </button>
+  </form>
+</div>
 
 <%- include ('../partials/footer') %>

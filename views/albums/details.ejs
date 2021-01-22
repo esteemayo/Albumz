@@ -1,50 +1,113 @@
 <%- include ('../partials/header') %>
 
 <a href="/albums" class="btn btn-default">&larr; Go Back</a>
-<h1><%= album.artist %> &mdash; <%= album.title %></h1>
-<div class="row album">
-    <div class="col-md-4">
-        <img src="<%= album.cover %>" alt="<%= album.title %>Album Cover" />
-    </div>
-
-    <div class="col-md-8">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <strong>Artist:</strong> <%= album.artist %>
-            </li>
-            <li class="list-group-item">
-                <strong>Album:</strong> <%= album.title %>
-            </li>
-            <li class="list-group-item">
-                <strong>Genre:</strong> <%= album.genre %>
-            </li>
-            <li class="list-group-item">
-                <strong>Release:</strong> <%= album.year %>
-            </li>
-            <li class="list-group-item">
-                <strong>Label:</strong> <%= album.label %>
-            </li>
-            <li class="list-group-item">
-                <strong>Tracks:</strong> <%= album.tracks %>
-            </li>
-        </ul>
-    </div>
-</div>
-<hr />
-
-<div class="row">
-    <div class="col-md-12">
-        <h4>Album Info</h4>
-        <p><%= album.info %></p>
-    </div>
-</div>
 <br />
-
-
+<h1 class="heading-secondary"><%= album.artist %> &mdash; <%= album.title %></h1>
+<div class="card">
+    <div class="row album">
+        <div class="col-md-4">
+            <% if (album.coverId) { %>
+                <img src="<%= album.cover %>" alt="<%= album.title %>" title="<%= album.title %>" height="258"/>
+            <% } else { %>
+                <img src="/img/albums/<%= album.cover %>" alt="<%= album.title %>" title="<%= album.title %>" height="258"/>
+            <% } %>
+        </div>
+    
+        <div class="col-md-8">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Artist:</strong> <%= album.artist %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Album:</strong> <%= album.title %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Genre:</strong> <%= album.genre %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Release:</strong> <%= album.year %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Label:</strong> <%= album.label %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Tracks:</strong> <%= album.tracks %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Posted by:</strong> <%= album.user.fullName %>
+                </li>
+                <li class="list-group-item">
+                    <strong>Uploaded:</strong> 
+                    <time datetime="<%= album.createdAt %>"><%= album.createdAt.toDateString(); %></time>
+                </li>
+            </ul>
+        </div>
+    </div>
     <hr />
-    <a href="/albums/edit/<%= album._id %>" class="btn btn-default">Edit</a>
-    <form class="formDelete" action="/albums/delete/<%= album._id %>?_method=DELETE" method="post">
-        <input class="btn btn-danger" type="submit" value="Delete">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="heading-primary">Album Info</h4>
+            <% const paragraphs = album.info.split('\n'); %>
+            <% paragraphs.forEach(p => { %>
+                <p><%= p %></p>
+            <% }); %>
+        </div>
+    </div>
+    <br />
+    
+    <% if (album.tags) { %>
+        <hr />
+        <h4 class="heading-tertiary">HashTag(s)</h4>
+        <ul class="tags">
+            <% album.tags.forEach(tag => { %>
+             <li class="tag">
+                 <a class="tag__link" href="/albums/tags/<%= tag %>">
+                    <span class="tag__text">#<%= tag %></span>
+                </a>
+            </li>
+            <% }); %>
+        </ul>
+    <% } %>
+    
+    <hr />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <% if (user && user.role !== 'admin') { %>
+            <h5 class="heading-secondary">Leave a Review</h5>
+            <form class="reviewer" action="/albums/<%= album._id %>/reviews" method="POST">
+                <textarea id="review__text" name="review" placeholder="Did you listen to this album? Have something to say? Leave a review..."></textarea>
+                <div class="reviewer__meta">
+                    <div class="reviewer__stars">
+                        <% const stars = [5, 4, 3, 2, 1]; %>
+                        <% stars.forEach(star => { %>
+                            <input type="radio" name="rating" id="star<%= star %>" value="<%= star %>" required>
+                            <label for="star<%= star %>"><%= star %> Stars</label>
+                        <% }); %>
+                    </div>
+                    <input class="button" type="submit" value="Submit Review →">
+                </div>
+            </form>
+            <% } %>
+        </div>
+        <div class="col-md-12">
+            <% if (album.reviews.length > 0) { %>
+                <h6 class="heading-secondary">Reviews (<%= album.reviews.length %>)</h6>
+                <div class="reviews">
+                    <%- include('../partials/ratings') %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<% if (user && album.user.equals(user._id) || user && user.role === 'admin') { %>
+    <hr />
+    <a href="/albums/edit/<%= album.slug %>" class="btn btn--green btn--small">Edit →</a>
+    <form class="formDelete" action="/albums/delete/<%= album._id %>?_method=DELETE" method="POST">
+        <input class="btn btn-small btn-danger" type="submit" value="Delete" />
     </form>
+<% } %>
 
 <%- include ('../partials/footer') %>

@@ -1,0 +1,38 @@
+<% album.reviews.forEach(review => { %>
+    <div class="review">
+        <div class="review__header">
+            <div class="review_author">
+                <a href="/users/profile/<%= review.user.username %>">
+                    <% if (review.user.photo) { %>
+                        <img class="avatar" src="/img/users/<%= review.user.photo %>" alt="<%= review.user.fullName %>" />
+                    <% } else { %>
+                        <img class="avatar" src="<%= review.user.gravatar %>" alt="<%= review.user.fullName %>" />
+                    <% } %>
+                </a>
+                <p><%= review.user.fullName %></p>
+            </div>
+
+            <div class="review__stars" title="Rated <%= review.rating %> out of 5 stars">
+                <% if (review.rating === 5) { %>
+                    ★★★★★
+                <% } else if (review.rating === 4) { %>
+                    ★★★★☆
+                <% } else if (review.rating === 3) { %>
+                    ★★★☆☆
+                <% } else if (review.rating === 2) { %>
+                    ★★☆☆☆
+                <% } else if (review.rating === 1) { %>
+                    ★☆☆☆☆
+                <% } else { %>
+                    ☆☆☆☆☆
+                <% } %>
+            </div>
+
+            <time class="review__time" datetime="<%= review.createdAt %>"><%= h.moment(review.createdAt).fromNow() %></time>
+        </div>
+
+        <div class="review__body">
+            <p><%= review.review %></p>
+        </div>
+    </div>
+<% }); %>

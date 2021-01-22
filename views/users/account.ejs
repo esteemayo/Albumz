@@ -1,0 +1,79 @@
+<%- include ('../partials/header') %>
+
+<h2 class="heading-secondary">Your account settings</h2>
+<hr />
+<form action="/submit-user-data" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="form__label" for="firstName">First Name</label>
+        <input class="form__input" type="text" id="firstName" name="firstName" value="<%= user.firstName %>" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form" for="lastName">Last Name</label>
+        <input class="form__input" type="text" id="lastName" name="lastName" value="<%= user.lastName %>" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form" for="email">Email</label>
+        <input class="form__input" type="email" id="email" name="email" value="<%= user.email %>" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form" for="username">Username</label>
+        <input class="form__input" type="text" id="username" name="username" value="<%= user.username %>" required>
+    </div>
+
+    <div class="form-group">
+        <% if (user.photo) { %>
+            <img class="form__user-photo" src="/img/users/<%= user.photo %>" alt="<%= user.fullName %>" title="<%= user.fullName %>" />
+        <% } else { %>
+            <img class="form__user-photo" src="<%= user.gravatar %>" alt="<%= user.fullName %>" title="<%= user.fullName %>" />
+        <% } %>
+        <input class="form__upload" type="file" id="photo" name="photo" accept="image/*">
+        <label class="form" for="photo">Choose new photo</label>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn--green btn--small btn-block" type="submit">Save settings →</button>
+    </div>
+</form>
+
+<div class="space"></div>
+
+<h2 class="heading-secondary">Password change</h2>
+<hr />
+<form action="/updateMyPassword" method="POST">
+    <div class="form-group">
+        <label class="form__label" for="passwordCurrent">Current Password</label>
+        <input class="form__input" type="password" id="passwordCurrent" name="passwordCurrent" placeholder="********" required minlength="8">
+    </div>
+
+    <div class="form-group">
+        <label class="form__label" for="password">Password</label>
+        <input class="form__input" type="password" id="password" name="password" placeholder="********" required minlength="8">
+    </div>
+
+    <div class="form-group">
+        <label class="form__label" for="passwordConfirm">Confirm Password</label>
+        <input class="form__input" type="password" id="passwordConfirm" name="passwordConfirm" placeholder="********" required minlength="8">
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn--green btn--small btn-block" type="submit">Save password →</button>
+    </div>
+</form>
+
+<div class="space"></div>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="heading-secondary">Deactivate your account</h3>
+        <hr />
+        <form action="/users/account/delete-me?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger btn--small btn-block">
+                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Deactivate Account
+            </button>
+        </form>
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>

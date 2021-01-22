@@ -1,54 +1,66 @@
 <%- include ('../partials/header') %>
 
-<h1>Add Album</h1>
-<form action="/albums/add" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="artist">Artist</label>
-        <input type="text" name="artist" class="form-control" placeholder="Artist Name">
-    </div>
-
-    <div class="form-group">
-        <label for="title">Album Title</label>
-        <input type="text" name="title" class="form-control" placeholder="Album Title">
-    </div>
-
-    <div class="form-group">
-        <label for="genre">Genre</label>
-        <select name="genre" class="form-control">
-            <option value="Select a genre">Select a Genre</option>
-            <% genres.forEach(genre => { %>
-                <option value="<%=genre.name %>"><%=genre.name %></option>
+<div class="inner">
+    <h1 class="heading-secondary">Add Album</h1>
+    <form class="card" action="/albums/add" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="form__label" for="artist">Artist</label>
+            <input id="artist" type="text" name="artist" class="form__input" placeholder="Artist Name" required/>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="title">Album Title</label>
+            <input id="title" type="text" name="title" class="form__input" placeholder="Album Title" required/>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="genre">Genre</label>
+            <select id="genre" name="genre" class="form__input" required>
+                <option value="Select a genre">Select a Genre</option>
+                <% genres.forEach(genre => { %>
+                    <option value="<%=genre.name %>"><%=genre.name %></option>
+                <% }); %>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="info">Album Info</label>
+            <textarea id="info" name="info" class="form__input" cols="30" rows="10" placeholder="Album Info" required></textarea>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="year">Release Year</label>
+            <input id="year" type="text" name="year" class="form__input" placeholder="Release Year" required/>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="label">Record Label</label>
+            <input id="label" type="text" name="label" class="form__input" placeholder="Record Label" required/>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="tracks">Number of Tracks</label>
+            <input id="tracks" type="text" name="tracks" class="form__input" placeholder="Number of Tracks" required/>
+        </div>
+    
+        <div class="form-group">
+            <label class="form__label" for="cover">Album Cover</label>
+            <input id="cover" type="file" name="cover" accept="image/*" class="form__input" />
+        </div>
+    
+        <% const choices = ["album", "albumcover", "hiphop", "newmusic",  "pop", "songs"]; %>
+        <ul class="tags">
+            <% choices.forEach(choice => { %>
+             <div class="tag tag__choice form-group">
+                 <input class="form__input" type="checkbox" id="<%= choice %>" name="tags" value="<%= choice %>" />
+                 <label for="<%= choice %>">#<%= choice %></label>
+             </div>
             <% }); %>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="info">Album Info</label>
-        <textarea name="info" class="form-control"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="year">Release Year</label>
-        <input type="text" name="year" class="form-control" placeholder="Release Year">
-    </div>
-
-    <div class="form-group">
-        <label for="label">Record Label</label>
-        <input type="text" name="label" class="form-control" placeholder="Record Label">
-    </div>
-
-    <div class="form-group">
-        <label for="tracks">Number of Tracks</label>
-        <input type="text" name="tracks" class="form-control" placeholder="Number of Tracks">
-    </div>
-
-    <div class="form-group">
-        <label for="cover">Album Cover</label>
-        <input type="file" name="cover" accept="image/*" class="form-control">
-    </div>
-
-    <button type="submit" class="btn btn-default">Submit</button>
-    <a href="/albums" class="btn btn-danger">Close</a>
-</form>
+        </ul>
+    
+        <button type="submit" class="btn btn--green btn--small">Submit</button>
+        <a href="/albums" class="btn btn-danger btn--small">Close</a>
+    </form>
+</div>
 
 <%- include ('../partials/footer') %>

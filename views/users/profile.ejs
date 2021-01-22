@@ -1,0 +1,69 @@
+<%- include ('../partials/header') %>
+
+<h1 class="heading-primary"><%= userProfile.fullName %></h1>
+<div class="row album">
+    <div class="col-md-4">
+        <% if (userProfile.photo) { %>
+            <img id="user-profile--img" src="/img/users/<%= userProfile.photo %>" alt="<%= userProfile.fullName %>" title="<%= userProfile.fullName %>" />
+         <% } else { %>
+            <img src="<%= userProfile.gravatar %>" alt="<%= userProfile.fullName %>" title="<%= userProfile.fullName %>" />
+         <% } %>
+    </div>
+
+    <div class="col-md-8">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>First Name:</strong> <%= userProfile.firstName %>
+            </li>
+            <li class="list-group-item">
+                <strong>Last Name:</strong> <%= userProfile.lastName %>
+            </li>
+            <li class="list-group-item">
+                <strong>Username:</strong> <%= userProfile.username %>
+            </li>
+            <% if (userProfile._id.equals(user._id) || user.role === 'admin') { %>
+                <li class="list-group-item">
+                    <strong> Email Address:</strong> <a href="mailto:<%= userProfile.email %>"><%= userProfile.email %></a>
+                </li>
+            <% } %>
+            <li class="list-group-item">
+                <strong>Location:</strong> <%= userProfile.location %>
+            </li>
+            <li class="list-group-item">
+                <strong>Favorite Genre:</strong> <%= userProfile.favGenres %>
+            </li>
+            <li class="list-group-item">
+                <strong>Favorite Artist:</strong> <%= userProfile.favArtists %>
+            </li>
+            <li class="list-group-item">
+                <% const date = userProfile.createdAt.toLocaleDateString('en-us', { month: 'long', year: 'numeric' }); %>
+                <strong>Joined:</strong> 
+                <time datetime="<%= userProfile.createdAt %>"><%= date %></time>
+            </li>
+            <li class="list-group-item album-count">
+                <strong>Albums:</strong> 
+                <span class="badge-count"><%= albums.length %></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row album">
+    <h2 class="heading-tertiary">My Albums</h2>
+    <% albums.forEach(album => { %>
+        <div class="col-md-4 albums">
+            <a href="/albums/details/<%= album.slug %>">
+                <% if (album.coverId) { %>
+                    <img src="<%= album.cover %>" alt="<%= album.title %>" height="258"/>
+                <% } else { %>
+                    <img src="/img/albums/<%= album.cover %>" alt="<%= album.title %>" height="258"/>
+                <% } %>
+            </a>
+
+            <h4 class="album-title text-center"><%= album.title %></h4>
+            <p class="artist-name text-center"><%= album.artist %></p>
+        </div>
+    <% }); %>
+</div>
+
+<%- include ('../partials/footer') %>

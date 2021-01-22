@@ -3,14 +3,19 @@
 <% if (user) { %>
     <h1>
       Genres
-      <a href="/genres/add" class="btn btn-success pull-right">Add Genre</a>
+      <a href="/genres/add" class="btn btn--small btn-success pull-right">Add Genre</a>
     </h1>
+    <br /><br>
 <% } %>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Name</th>
+            <% if (user && user.role === 'admin') { %>
+                <th>Posted by</th>
+                <th>Posted on</th>
+            <% } %>
             <th></th>
         </tr>
     </thead>
@@ -18,11 +23,15 @@
         <% genres.forEach(genre => { %>
             <tr>
                 <td><%= genre.name %></td>
+                <% if (user && user.role === 'admin') { %>
+                    <td><%= genre.user.fullName %></td>
+                    <td><%= h.moment(genre.createdAt).fromNow(); %></td>
+                <% } %>
                 <td>
-                    <% if (user) { %>
-                        <a href="/genres/edit/<%= genre._id %>" class="btn btn-default">Edit</a>
-                        <form class="formDelete" action="/genres/delete/<%= genre._id %>?_method=DELETE" method="post">
-                            <input class="btn btn-danger" type="submit" value="Delete">
+                    <% if (user && genre.user.equals(user._id) || user && user.role === 'admin') { %>
+                        <a href="/genres/edit/<%= genre.slug %>" class="btn btn--green btn--small">Edit</a>
+                        <form class="formDelete" action="/genres/delete/<%= genre._id %>?_method=DELETE" method="POST">
+                            <input class="btn btn--small btn-danger" type="submit" value="Delete" />
                         </form>
                     <% } %>
                 </td>

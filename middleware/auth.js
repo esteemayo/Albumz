@@ -1,10 +1,8 @@
 
 
 module.exports = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        req.flash('error_msg', 'Not Authorized');
-        res.redirect('/auth/login');
-    }
+    if (req.isAuthenticated()) return next();
+
+    req.flash('error_msg', 'Oops you must be logged in to do that!');
+    res.redirect('/auth/login');
 }

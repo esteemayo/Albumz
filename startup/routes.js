@@ -1,25 +1,26 @@
+/* eslint-disable */
 const mongoSanitize = require('express-mongo-sanitize');
 const methodOverride = require('method-override');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
-const compression = require('compression');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const express = require('express');
 const morgan = require('morgan');
-const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
 const path = require('path');
 const hpp = require('hpp');
 
 const globalErrorHandler = require('../controllers/errorController');
+const reviewRoute = require('../routes/reviews');
 const albumRoute = require('../routes/albums');
 const AppError = require('../utils/appError');
 const genreRoute = require('../routes/genre');
 const userRoute = require('../routes/users');
 const viewRoute = require('../routes/view');
+const helpers = require('../helpers');
 
 module.exports = app => {
     require('../config/passport')(passport);
@@ -34,13 +35,13 @@ module.exports = app => {
     app.set('views', path.join(`${__dirname}/../views`));
     app.set('view engine', 'ejs');
 
-    // Set security http headers
-    app.use(helmet());
-
     // Development logging
     if (process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'));
     }
+
+    // Serving static files
+    app.use(express.static(path.join(`${__dirname}/../public`)));
 
     // Limit request from same api
     const limiter = rateLimit({
@@ -77,12 +78,6 @@ module.exports = app => {
         ]
     }));
 
-    // Comoression middleware
-    app.use(compression());
-
-    // Serving static files
-    app.use(express.static(path.join(__dirname, '../public')));
-
     // Express session middleware
     app.use(session({
         secret: 'secret',
@@ -107,7 +102,9 @@ module.exports = app => {
         res.locals.error_msg = req.flash('error_msg');
         res.locals.error = req.flash('error');
         res.locals.user = req.user || null;
+        res.locals.currentPath = req.path;
         res.locals.page = req.url;
+        res.locals.h = helpers;
         next();
     });
 
@@ -122,9 +119,10 @@ module.exports = app => {
     app.use('/', userRoute);
     app.use('/api/v1/albums', albumRoute);
     app.use('/api/v1/genres', genreRoute);
+    app.use('/api/v1/reviews', reviewRoute);
 
     app.all('*', (req, res, next) => {
-        return next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+        next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
     });
 
     app.use(globalErrorHandler);
